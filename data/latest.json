@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-08-12T06:40:54+00:00",
+ "fetched_at": "2026-08-12T07:54:57+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -371,7 +371,7 @@
   }
  ],
  "usdc": {
-  "circulating": 72224205751.5394,
+  "circulating": 73101746877.96652,
   "history": [
    [
     1752019200,
@@ -2532,15 +2532,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 72224205751.5394,
+  "usdc_circulating": 73101746877.96652,
   "sofr_latest": 3.63,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.486,
-  "gross_income_run_rate": 2517865816.069016,
-  "per_100bp_gross": 722242057.515394,
-  "per_25bp_gross": 180560514.3788485,
-  "per_100bp_net_to_circle": 369787933.4478817,
-  "per_25bp_net_to_circle": 92446983.36197042,
+  "gross_income_run_rate": 2548458479.310293,
+  "per_100bp_gross": 731017468.7796652,
+  "per_25bp_gross": 182754367.1949163,
+  "per_100bp_net_to_circle": 374280944.01518863,
+  "per_25bp_net_to_circle": 93570236.00379716,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
