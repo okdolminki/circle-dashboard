@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circle (CRCL) 모니터링</title>
+<style>
+  :root{
+    --bg:#1a1a19; --card:#201f1e; --hairline:rgba(255,255,255,.10);
+    --grid:#2c2c2a; --baseline:#383835;
+    --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+    --s1:#3987e5; --s2:#199e70; --s3:#c98500; --s4:#9085e9;
+    --good:#0ca30c; --warn:#fab219;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink2);
+    font-family:system-ui,-apple-system,'Segoe UI','Apple SD Gothic Neo',sans-serif;
+    font-size:14px; line-height:1.5;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:40px 56px 48px}
+  @media(max-width:760px){.wrap{padding:24px 20px}}
+  header h1{color:var(--ink);font-size:26px;font-weight:700;letter-spacing:-.01em}
+  header .sub{color:var(--ink2);font-size:15px;font-weight:600;margin-top:9px}
+  header .meta{color:var(--muted);font-size:12.5px;margin-top:4px}
+  .num{font-variant-numeric:tabular-nums}
+
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:28px}
+  .tile{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:16px 18px}
+  .tile .k{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.02em}
+  .tile .v{color:var(--ink);font-size:24px;font-weight:700;margin-top:6px}
+  .tile .d{color:var(--muted);font-size:12px;margin-top:4px}
+  .tile .d b{color:var(--ink2);font-weight:600}
+
+  .card{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:20px 22px;margin-top:14px}
+  .card h2{color:var(--ink);font-size:15.5px;font-weight:700}
+  .card .cap{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+  /* 민감도 계산기 */
+  .sens{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;margin-top:14px}
+  .sens .block .k{color:var(--muted);font-size:12px;font-weight:600}
+  .sens .block .v{font-size:26px;font-weight:700;margin-top:4px;color:var(--ink)}
+  .sens .block .u{font-size:12px;color:var(--muted)}
+  .bps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .bps button{
+    background:transparent;border:1px solid var(--baseline);color:var(--ink2);
+    border-radius:7px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;
+  }
+  .bps button.on{border-color:var(--s1);color:var(--ink);background:rgba(57,135,229,.12)}
+  .note{color:var(--muted);font-size:12px;margin-top:12px;line-height:1.6}
+  .note b{color:var(--ink2);font-weight:600}
+
+  svg{display:block;width:100%;height:auto}
+  svg text{font-family:inherit}
+  .legend{display:flex;gap:14px;margin-top:8px}
+  .legend .it{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)}
+  .legend .sw{width:10px;height:10px;border-radius:3px}
+
+  .tooltip{
+    position:fixed;pointer-events:none;background:#111110;border:1px solid var(--baseline);
+    border-radius:7px;padding:7px 10px;font-size:12px;color:var(--ink2);z-index:9;display:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.5)
+  }
+  .tooltip b{color:var(--ink);font-weight:700}
+
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+  th{color:var(--muted);font-weight:600;text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--baseline);font-size:12px}
+  td{color:var(--ink2);text-align:right;padding:9px 10px;border-bottom:1px solid var(--grid)}
+  th:first-child,td:first-child{text-align:left}
+  td.strong{color:var(--ink);font-weight:600}
+
+  .filings{margin-top:10px}
+  .filings a{display:flex;gap:12px;align-items:baseline;padding:8px 2px;border-bottom:1px solid var(--grid);
+    color:var(--ink2);text-decoration:none;font-size:13px}
+  .filings a:hover{color:var(--ink)}
+  .filings .form{min-width:74px;font-weight:700;color:var(--ink)}
+  .filings .form.hot{color:var(--warn)}
+  .filings .date{color:var(--muted);min-width:88px}
+
+  footer{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:34px;
+    padding-top:16px;border-top:1.5px solid var(--baseline)}
+  footer .src{color:var(--muted);font-size:12px;line-height:1.6;max-width:78%}
+  footer .colophon{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:700;white-space:nowrap}
+  footer .colophon img{height:18px;opacity:.95}
+  #err{display:none;background:rgba(250,178,25,.08);border:1px solid var(--warn);border-radius:10px;
+    padding:14px 18px;margin-top:20px;color:var(--ink2);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Circle (CRCL) 모니터링</h1>
+    <div class="sub">금리 민감도, RLDC 마진, 기타 수익 비중을 한 곳에서</div>
+    <div class="meta" id="meta">데이터 로딩 중…</div>
+  </header>
+
+  <div id="err">data/latest.json 을 불러오지 못했습니다. 이 페이지는 <b>http 서버로 열어야</b> 합니다.
+    터미널에서 <code>python3 fetch_data.py && python3 -m http.server</code> 실행 후
+    <code>http://localhost:8000</code> 으로 접속하세요.</div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="card">
+    <h2>금리 민감도 계산기 <span style="color:var(--muted);font-weight:400;font-size:12.5px">실시간 USDC 유통량 기준, 연환산</span></h2>
+    <div class="bps" id="bps"></div>
+    <div class="sens">
+      <div class="block"><div class="k">준비금 총수익 변화 (연환산)</div><div class="v num" id="sGross">–</div></div>
+      <div class="block"><div class="k">Circle 순효과 (유통비용 차감 후)</div><div class="v num" id="sNet">–</div></div>
+      <div class="block"><div class="k">수익률 반영 시차 (근사)</div><div class="v num" id="sLag">–</div><div class="u">포트폴리오 WAM 기준</div></div>
+    </div>
+    <div class="note" id="sNote"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2>RLDC 마진</h2><div class="cap">총매출 대비 유통·거래·기타비용 차감 후 마진. FY26 가이던스 41.7~43.7%,
+      단 ARC 프리세일 제외 시 회사 설명은 "기존 범위(38~40%)의 중간값 근처"</div><div id="chMargin"></div></div>
+    <div class="card"><h2>Net Reserve Margin</h2><div class="cap">준비금 이자 중 Circle이 쥐는 몫. 신사업이 안 섞여 ARC 프리세일에 오염되지 않는다.
+      코인베이스 계약이 2029년까지 고정된 만큼, 이 지표는 협상이 아니라 잔고 위치 이동을 측정한다</div><div id="chNrm"></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2>기타 수익 비중 (탈금리화 진행률)</h2><div class="cap">총매출 중 준비금 이자 외 매출의 비중. FY26 가이던스 $310~330M,
+      이 중 $180M이 ARC 토큰 프리세일(1회성)이라 실질 신사업 전망은 $130~150M</div><div id="chOther"></div></div>
+    <div class="card"><h2>비용 강도 (신사업 투자)</h2><div class="cap">(Adjusted OpEx + D&amp;A) ÷ RLDC. Adjusted OpEx는 D&amp;A를 빼는데
+      거기에 자본화된 엔지니어링 상각이 들어있어, 다시 더해야 실제 투자 강도가 보인다</div><div id="chCost"></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2>분기 매출 구성</h2><div class="cap">준비금 이자수익 vs 기타 수익 (백만 달러)</div>
+      <div class="legend"><span class="it"><span class="sw" style="background:var(--s1)"></span>준비금 이자수익</span>
+      <span class="it"><span class="sw" style="background:var(--s2)"></span>기타 수익</span></div>
+      <div id="chStack"></div></div>
+    <div class="card"><h2>USDC 유통량</h2><div class="cap">최근 400일 (DefiLlama)</div><div id="chUsdc"></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2>CRCL 주가</h2><div class="cap">최근 6개월 종가 (Yahoo Finance)</div><div id="chCrcl"></div></div>
+    <div class="card"><h2>최근 SEC 공시</h2><div class="cap">10-Q, 10-K, 8-K가 뜨면 다음 자동 수집 때 분기 지표에 반영됨</div><div class="filings" id="filings"></div></div>
+  </div>
+
+  <div class="card">
+    <h2>분기 지표 테이블</h2>
+    <div class="cap">단위: 백만 달러. 유통·거래비용은 (총매출 − 영업비용 − 영업이익)에서 기타비용을 뺀 값.
+      Q2'26 검증: 410.4M = 공시와 일치. Net Reserve Margin = (준비금 이자 − 유통·거래비용) ÷ 준비금 이자.
+      RRR = 준비금 이자 × 4 ÷ 평균 유통량이며, 평균 유통량은 실적 발표치를 우선 쓰고 없으면 DefiLlama로 근사한다
+      (근사 분기는 격차가 실제보다 흔들릴 수 있음). 격차의 이론값 14.4bp = USDXX 보수율 0.17% × 펀드 비중 0.846</div>
+    <div style="overflow-x:auto"><table id="qtable"></table></div>
+  </div>
+
+  <footer>
+    <div class="src" id="srcline">출처: SEC EDGAR, DefiLlama, CoinGecko, NY Fed, US Treasury, Yahoo Finance.
+      비GAAP 지표(Adjusted OpEx, Adjusted EBITDA)와 ARC 프리세일 인식액은 XBRL에 태그가 없어
+      fetch_data.py의 QUARTERLY_MANUAL에 실적 발표 때 분기당 한 번 직접 입력한다.</div>
+    <div class="colophon"><img src="assets/pyramid-mark-muted-898781.png" alt="" onerror="this.style.display='none'">Third State</div>
+  </footer>
+</div>
+<div class="tooltip" id="tip"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const INK=()=>css('--ink'), INK2=()=>css('--ink2'), MUT=()=>css('--muted');
+const fmtB=v=>'$'+(v/1e9).toFixed(2)+'B';
+const fmtM=(v,d=0)=>'$'+(v/1e6).toFixed(d)+'M';
+const fmtSign=v=>(v>0?'+':v<0?'−':'')+fmtM(Math.abs(v));
+const tip=$('tip');
+function showTip(x,y,html){tip.innerHTML=html;tip.style.display='block';
+  const w=tip.offsetWidth;tip.style.left=Math.min(x+14,innerWidth-w-10)+'px';tip.style.top=(y+14)+'px';}
+function hideTip(){tip.style.display='none'}
+
+/* ---------- 라인 차트 (단일 시리즈, 호버 크로스헤어) ---------- */
+function lineChart(el, pts, {color, yFmt, xFmt, tipFmt, ySuffix=''}){
+  const W=560, H=240, P={l:46,r:64,t:14,b:26};   /* 고정 논리 좌표, CSS로 비례 스케일 */
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+  let y0=Math.min(...ys), y1=Math.max(...ys);
+  const pad=(y1-y0)*0.12||y1*0.05||1; y0-=pad; y1+=pad;
+  const X=x=>P.l+(x-xs[0])/(xs[xs.length-1]-xs[0]||1)*(W-P.l-P.r);
+  const Y=y=>H-P.b-(y-y0)/(y1-y0)*(H-P.t-P.b);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width='100%';
+  const add=(tag,at,txt)=>{const n=document.createElementNS(ns,tag);
+    for(const k in at)n.setAttribute(k,at[k]); if(txt!=null)n.textContent=txt; svg.appendChild(n); return n;};
+  // 그리드 (은은하게 4줄) + y라벨
+  for(let i=0;i<=3;i++){const gy=P.t+(H-P.t-P.b)*i/3, val=y1-(y1-y0)*i/3;
+    add('line',{x1:P.l,x2:W-P.r,y1:gy,y2:gy,stroke:css('--grid'),'stroke-width':1});
+    add('text',{x:P.l-8,y:gy+4,fill:MUT(),'font-size':11,'text-anchor':'end','class':'num'},yFmt(val));}
+  add('line',{x1:P.l,x2:W-P.r,y1:H-P.b,y2:H-P.b,stroke:css('--baseline'),'stroke-width':1.5});
+  // x라벨 (양끝 + 중간)
+  [0,Math.floor(pts.length/2),pts.length-1].forEach(i=>{
+    add('text',{x:X(xs[i]),y:H-8,fill:MUT(),'font-size':11,'text-anchor':i==0?'start':(i==pts.length-1?'end':'middle')},xFmt(xs[i]));});
+  const d=pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join('');
+  add('path',{d,fill:'none',stroke:color,'stroke-width':2,'stroke-linejoin':'round'});
+  const last=pts[pts.length-1];
+  add('circle',{cx:X(last[0]),cy:Y(last[1]),r:4,fill:color,stroke:css('--card'),'stroke-width':2});
+  add('text',{x:X(last[0])+8,y:Y(last[1])+4,fill:INK(),'font-size':12,'font-weight':700,'class':'num'},yFmt(last[1])+ySuffix);
+  // 호버
+  const hover=add('circle',{r:4.5,fill:'none',stroke:color,'stroke-width':2,visibility:'hidden'});
+  const vline=add('line',{y1:P.t,y2:H-P.b,stroke:css('--baseline'),'stroke-width':1,'stroke-dasharray':'3 3',visibility:'hidden'});
+  svg.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(), mx=(e.clientX-r.left)*(W/r.width);
+    let bi=0,bd=1e18;
+    pts.forEach((p,i)=>{const dd=Math.abs(X(p[0])-mx); if(dd<bd){bd=dd;bi=i;}});
+    const p=pts[bi];
+    hover.setAttribute('cx',X(p[0]));hover.setAttribute('cy',Y(p[1]));hover.setAttribute('visibility','visible');
+    vline.setAttribute('x1',X(p[0]));vline.setAttribute('x2',X(p[0]));vline.setAttribute('visibility','visible');
+    showTip(e.clientX,e.clientY,tipFmt(p));});
+  svg.addEventListener('mouseleave',()=>{hideTip();hover.setAttribute('visibility','hidden');vline.setAttribute('visibility','hidden');});
+  el.innerHTML='';el.appendChild(svg);
+}
+
+/* ---------- 누적 막대 (2 시리즈, 2px 간격, 직접 레이블) ---------- */
+function stackChart(el, rows){
+  const W=560, H=250, P={l:52,r:12,t:16,b:26};
+  const max=Math.max(...rows.map(r=>r.total_revenue))/1e6*1.08;
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.width='100%';
+  const add=(tag,at,txt)=>{const n=document.createElementNS(ns,tag);
+    for(const k in at)n.setAttribute(k,at[k]); if(txt!=null)n.textContent=txt; svg.appendChild(n); return n;};
+  for(let i=0;i<=3;i++){const gy=P.t+(H-P.t-P.b)*i/3, val=max-(max)*i/3;
+    add('line',{x1:P.l,x2:W-P.r,y1:gy,y2:gy,stroke:css('--grid'),'stroke-width':1});
+    add('text',{x:P.l-8,y:gy+4,fill:MUT(),'font-size':11,'text-anchor':'end','class':'num'},Math.round(val));}
+  add('line',{x1:P.l,x2:W-P.r,y1:H-P.b,y2:H-P.b,stroke:css('--baseline'),'stroke-width':1.5});
+  const n=rows.length, slot=(W-P.l-P.r)/n, bw=Math.min(40,slot*0.55);
+  const Y=v=>H-P.b-(v/max)*(H-P.t-P.b);
+  rows.forEach((r,i)=>{
+    const x=P.l+slot*i+(slot-bw)/2;
+    const res=(r.reserve_income||0)/1e6, oth=(r.other_revenue||0)/1e6;
+    const yRes=Y(res), yTop=Y(res+oth);
+    const bar=(y,h,c,rx)=>{if(h>0.5)add('rect',{x,y,width:bw,height:h,fill:c,rx});};
+    bar(yRes,H-P.b-yRes,css('--s1'),3);
+    bar(yTop,yRes-yTop-2,css('--s2'),3);           /* 2px 표면 간격 */
+    if(H-P.b-yRes>18)add('text',{x:x+bw/2,y:yRes+15,fill:INK(),'font-size':10.5,'font-weight':600,'text-anchor':'middle','class':'num'},Math.round(res));
+    add('text',{x:x+bw/2,y:H-8,fill:MUT(),'font-size':10.5,'text-anchor':'middle'},r.quarter.replace('20','').replace('Q',"'Q"));
+    const hit=add('rect',{x:P.l+slot*i,y:P.t,width:slot,height:H-P.t-P.b,fill:'transparent'});
+    hit.addEventListener('mousemove',e=>showTip(e.clientX,e.clientY,
+      `<b>${r.quarter}</b><br>준비금 이자수익 <b>${fmtM(r.reserve_income,1)}</b><br>기타 수익 <b>${fmtM(r.other_revenue,1)}</b><br>기타 비중 <b>${r.other_share_pct}%</b>`));
+    hit.addEventListener('mouseleave',hideTip);
+  });
+  el.innerHTML='';el.appendChild(svg);
+}
+
+/* ---------- 메인 ---------- */
+fetch('./data/latest.json').then(r=>r.json()).then(D=>{
+  const t=new Date(D.fetched_at);
+  $('meta').textContent=`마지막 수집 ${t.toLocaleString('ko-KR')} (UTC ${D.fetched_at.slice(11,16)}), 실시간 지표는 수집 시점 기준, 분기 지표는 SEC 공시 기준`;
+
+  /* 타일 */
+  const q=D.quarters?D.quarters[D.quarters.length-1]:null;
+  const tiles=[];
+  if(D.crcl)tiles.push(['CRCL 주가',`$${D.crcl.price.toFixed(2)}`,`52주 <b>$${D.crcl.low52w}</b> ~ <b>$${D.crcl.high52w}</b>`]);
+  if(D.usdc)tiles.push(['USDC 유통량',fmtB(D.usdc.circulating),'DefiLlama, 실시간']);
+  if(D.usyc)tiles.push(['USYC AUM (근사)',fmtB(D.usyc.aum),'CoinGecko 시가총액 기준']);
+  if(D.sofr)tiles.push(['SOFR',D.sofr[D.sofr.length-1].rate.toFixed(2)+'%',`${D.sofr[D.sofr.length-1].date} 기준`]);
+  if(D.treasury)tiles.push(['국채 3개월물',D.treasury['3 Mo']+'%',`1M <b>${D.treasury['1 Mo']}</b>, 6M <b>${D.treasury['6 Mo']}</b>, 1Y <b>${D.treasury['1 Yr']}</b>`]);
+  if(q)tiles.push([`RLDC 마진 (${q.quarter})`,q.rldc_margin_pct.toFixed(2)+'%',`기타 수익 비중 <b>${q.other_share_pct.toFixed(2)}%</b>`]);
+  if(q&&q.net_reserve_margin_pct!=null)
+    tiles.push([`Net Reserve Margin (${q.quarter})`,q.net_reserve_margin_pct.toFixed(2)+'%','준비금 이자 중 Circle 몫. 신사업 미포함']);
+  if(q&&q.rrr_sofr_spread_bps!=null)
+    tiles.push([`RRR − SOFR 격차 (${q.quarter})`,q.rrr_sofr_spread_bps.toFixed(1)+'bp',
+      `RRR <b>${q.rrr_pct}%</b>, 이론 <b>${q.fee_drag_bps_theory}bp</b> = BlackRock 수수료`]);
+  $('tiles').innerHTML=tiles.map(([k,v,d])=>`<div class="tile"><div class="k">${k}</div><div class="v num">${v}</div><div class="d">${d}</div></div>`).join('');
+
+  /* 민감도 계산기 */
+  if(D.sensitivity){
+    const S=D.sensitivity;
+    const opts=[-100,-50,-25,25,50,100]; let cur=-25;
+    const render=()=>{
+      const gross=S.per_100bp_gross*cur/100, net=gross*S.net_passthrough;
+      $('sGross').textContent=fmtSign(gross); $('sGross').style.color=gross<0?css('--warn'):css('--good');
+      $('sNet').textContent=fmtSign(net); $('sNet').style.color=net<0?css('--warn'):css('--good');
+      $('sLag').textContent='약 '+S.phase_in_days_approx+'일';
+      $('bps').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v===cur));
+      $('sNote').innerHTML=
+        `계산식: USDC 유통량 <b>${fmtB(S.usdc_circulating)}</b> × 금리 변동 <b>${cur}bp</b> = 준비금 총수익 변화. `+
+        `Circle 순효과는 최신 10-Q Item 7A 민감도 공시 비율(총수익 변동의 <b>${(S.net_passthrough*100).toFixed(1)}%</b>만 Circle에 귀속, 나머지는 코인베이스 등 유통 파트너 몫과 연동. 전분기 대비 온플랫폼 비중 상승과 함께 49.0%→51.2%로 실측 상승)을 적용. `+
+        `준비금 포트폴리오(USDXX)의 WAM(가중평균만기)이 <b>${S.phase_in_days_approx}일</b>이라 금리 변동이 사실상 즉시 반영된다. `+
+        `= 만기를 길게 잡아 인하를 늦게 맞는 <b>시차 헤지 효과가 없다</b>. 법상 상한은 GENIUS Act 93일, Rule 2a-7 WAM 60일이지만 `+
+        `분기 상환 회전율이 1.19배라 사업 모델이 먼저 막는다. `+
+        `현재 SOFR <b>${S.sofr_latest}%</b>에서 BlackRock 수수료 <b>${S.fee_drag_bps}bp</b>를 뺀 실효 수익률 <b>${S.implied_rrr_pct}%</b> 기준, `+
+        `준비금 총수익 연환산 약 <b>${fmtM(S.gross_income_run_rate)}</b>.`;
+    };
+    $('bps').innerHTML=opts.map(v=>`<button data-v="${v}">${v>0?'+':''}${v}bp</button>`).join('');
+    $('bps').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.dataset.v;render();});
+    render();
+  }
+
+  /* 분기 차트 */
+  if(D.quarters&&D.quarters.length){
+    const qs=D.quarters;
+    const qx=qs.map((r,i)=>i);
+    const lab=i=>qs[Math.round(i)]?qs[Math.round(i)].quarter.replace('20','').replace('Q',"'Q"):'';
+    lineChart($('chMargin'),qs.map((r,i)=>[i,r.rldc_margin_pct]),{
+      color:css('--s3'),yFmt:v=>v.toFixed(1)+'%',xFmt:lab,ySuffix:'',
+      tipFmt:p=>`<b>${qs[p[0]].quarter}</b><br>RLDC 마진 <b>${p[1].toFixed(2)}%</b><br>RLDC ${fmtM(qs[p[0]].rldc,1)}`});
+    lineChart($('chOther'),qs.map((r,i)=>[i,r.other_share_pct]),{
+      color:css('--s2'),yFmt:v=>v.toFixed(1)+'%',xFmt:lab,
+      tipFmt:p=>`<b>${qs[p[0]].quarter}</b><br>기타 수익 비중 <b>${p[1].toFixed(2)}%</b><br>기타 수익 ${fmtM(qs[p[0]].other_revenue,1)}`});
+    /* 값이 있는 분기만 남기되 원래 인덱스를 x로 유지 (x라벨이 그대로 맞도록) */
+    const sub=key=>{const f=[];qs.forEach((r,i)=>{if(r[key]!=null)f.push([i,r[key]]);});return f;};
+    const nrm=sub('net_reserve_margin_pct');
+    if(nrm.length)lineChart($('chNrm'),nrm,{
+      color:css('--s1'),yFmt:v=>v.toFixed(1)+'%',xFmt:lab,
+      tipFmt:p=>{const r=qs[p[0]];return `<b>${r.quarter}</b><br>Net Reserve Margin <b>${p[1].toFixed(2)}%</b>`+
+        `<br>준비금 이자 ${fmtM(r.reserve_income,1)}<br>유통·거래비용 ${fmtM(r.distribution_transaction_costs,1)}`;}});
+    const cost=sub('cost_intensity_pct');
+    if(cost.length)lineChart($('chCost'),cost,{
+      color:css('--s3'),yFmt:v=>v.toFixed(0)+'%',xFmt:lab,
+      tipFmt:p=>{const r=qs[p[0]];return `<b>${r.quarter}</b><br>비용 강도 <b>${p[1].toFixed(2)}%</b>`+
+        `<br>Adjusted OpEx ${fmtM(r.adj_opex,1)}<br>D&A ${fmtM(r.dna,1)}`+
+        `<br>Adj EBITDA 마진 <b>${r.adj_ebitda_margin_pct}%</b>`;}});
+    stackChart($('chStack'),qs);
+    /* 테이블 */
+    const pc=(v,d=2)=>v==null?'–':v.toFixed(d)+'%';
+    const mm=v=>v==null?'–':(v/1e6).toFixed(1);
+    const h=['분기','총매출','준비금 이자','기타 수익','유통·거래비용*','RLDC','RLDC 마진',
+             'Net Reserve Margin','RRR','SOFR','격차','기타 비중'];
+    $('qtable').innerHTML='<tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+
+      qs.slice().reverse().map(r=>`<tr><td class="strong">${r.quarter}</td>`+
+        `<td class="num">${mm(r.total_revenue)}</td><td class="num">${mm(r.reserve_income)}</td>`+
+        `<td class="num">${mm(r.other_revenue)}</td><td class="num">${mm(r.distribution_transaction_costs)}</td>`+
+        `<td class="num">${mm(r.rldc)}</td><td class="num strong">${pc(r.rldc_margin_pct)}</td>`+
+        `<td class="num strong">${pc(r.net_reserve_margin_pct)}</td>`+
+        `<td class="num">${pc(r.rrr_pct,2)}</td><td class="num">${pc(r.sofr_avg_pct,2)}</td>`+
+        `<td class="num strong">${r.rrr_sofr_spread_bps==null?'–':r.rrr_sofr_spread_bps.toFixed(1)+'bp'}</td>`+
+        `<td class="num">${pc(r.other_share_pct)}</td></tr>`).join('');
+  }
+
+  /* USDC, CRCL 라인 */
+  const dstr=ts=>new Date(ts*1000).toLocaleDateString('ko-KR',{year:'2-digit',month:'short'});
+  if(D.usdc&&D.usdc.history.length)
+    lineChart($('chUsdc'),D.usdc.history,{color:css('--s1'),yFmt:v=>'$'+(v/1e9).toFixed(0)+'B',xFmt:dstr,
+      tipFmt:p=>`<b>${new Date(p[0]*1000).toLocaleDateString('ko-KR')}</b><br>유통량 <b>${fmtB(p[1])}</b>`});
+  if(D.crcl&&D.crcl.history.length)
+    lineChart($('chCrcl'),D.crcl.history,{color:css('--s4'),yFmt:v=>'$'+v.toFixed(0),xFmt:dstr,
+      tipFmt:p=>`<b>${new Date(p[0]*1000).toLocaleDateString('ko-KR')}</b><br>종가 <b>$${p[1].toFixed(2)}</b>`});
+
+  /* 공시 */
+  if(D.filings)$('filings').innerHTML=D.filings.map(f=>{
+    const hot=/10-Q|10-K|8-K/.test(f.form);
+    return `<a href="${f.url}" target="_blank" rel="noopener"><span class="form ${hot?'hot':''}">${f.form}</span><span class="date num">${f.date}</span><span>${f.desc}</span></a>`;}).join('');
+}).catch(e=>{$('err').style.display='block';$('meta').textContent='';console.error(e);});
+</script>
+</body>
+</html>
