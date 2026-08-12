@@ -18,10 +18,12 @@
   - Yahoo Finance chart          : CRCL 주가
 """
 import json
+import re
 import ssl
 import sys
 import urllib.request
 from datetime import date, datetime, timezone
+from html import unescape
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
@@ -241,6 +243,105 @@ def fetch_edgar_filings():
 
 
 # ---------------------------------------------------------------------------
+# 1-b) 실적 보도자료(8-K 첨부) 파싱: 비GAAP 지표 자동 수집
+#
+# Adjusted OpEx / Adjusted EBITDA는 비GAAP이라 XBRL에 태그가 없지만, 실적
+# 보도자료(8-K 항목 2.02의 첨부문서)에는 표로 실려 있다. 이 보도자료는
+# 이미지 슬라이드 + 평문 텍스트 레이어 구조라 <table> 태그가 없고, 라벨 뒤에
+# 값이 나열되는 형태다:
+#   "Adjusted Operating Expenses $ 146,380 $ 135,677 $ 132,806 $ 122,686 $ 119,366"
+# 매 분기 5개 분기치가 함께 실리므로 과거 분기도 같이 갱신된다.
+#
+# 안전장치: 못 뽑으면 조용히 틀린 값을 넣지 않고 비워둔 채 경고만 남긴다.
+# QUARTERLY_MANUAL에 손으로 넣은 값이 항상 우선하고, 자동/수동이 다르면 경고한다.
+# ARC 프리세일 인식액은 보도자료에 금액이 없어(각주에 문구만 있음) 자동화 불가 -
+# 실적 콜에서 확인해 QUARTERLY_MANUAL에 직접 넣어야 하는 유일한 항목이다.
+# ---------------------------------------------------------------------------
+_MON_Q = {"March": 1, "June": 2, "September": 3, "December": 4}
+# 쉼표 그룹이 있는 천 단위 숫자만 받는다. 가이던스의 "$570-$585M" 같은 값 배제용.
+_THOUSANDS = r"\$?\s*\(?(\d{1,3}(?:,\d{3})+)\)?"
+
+
+def _flatten(raw_bytes):
+    text = re.sub(r"<[^>]+>", " ", raw_bytes.decode("utf-8", "ignore"))
+    return re.sub(r"[\s\xa0​]+", " ", unescape(text))
+
+
+def _row(text, label, n=5):
+    """'라벨 $ v1 $ v2 ...' 에서 천 단위 값 n개를 달러 단위로 뽑는다."""
+    for m in re.finditer(re.escape(label), text):
+        vals = re.findall(_THOUSANDS, text[m.end(): m.end() + 200])[:n]
+        if len(vals) == n:
+            return [int(v.replace(",", "")) * 1000 for v in vals]
+    return None
+
+
+def _quarter_keys(text, n=5):
+    """분기 헤더('June 30, 2026 March 31, 2026 ...')를 분기 키로 변환."""
+    for m in re.finditer(r"Three Months Ended", text):
+        seg = text[m.end(): m.end() + 220]
+        d = re.findall(r"(March|June|September|December)\s+\d{1,2},\s+(\d{4})", seg)
+        if len(d) >= n:
+            return [f"{y}Q{_MON_Q[mo]}" for mo, y in d[:n]]
+    return []
+
+
+def fetch_earnings_release():
+    """최신 실적 8-K의 보도자료에서 분기별 비GAAP 지표를 뽑는다."""
+    cik = CONFIG["circle_cik"]
+    rec = get_json(f"https://data.sec.gov/submissions/CIK{cik}.json")["filings"]["recent"]
+    items_col = rec.get("items") or [""] * len(rec["form"])
+    acc = next(
+        (rec["accessionNumber"][i].replace("-", "")
+         for i in range(len(rec["form"]))
+         # 항목 2.02 = Results of Operations (실적 발표)
+         if rec["form"][i] == "8-K" and "2.02" in (items_col[i] or "")),
+        None,
+    )
+    if not acc:
+        return {}
+    base = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}"
+    # 파일명 규칙은 분기마다 바뀌므로(augustepr-... 등) 이름이 아니라 내용으로 고른다
+    for it in get_json(f"{base}/index.json")["directory"]["item"]:
+        name = it["name"]
+        if (not name.endswith(".htm") or name.startswith(acc[:10])
+                or re.fullmatch(r"R\d+\.htm", name)):
+            continue
+        text = _flatten(get(f"{base}/{name}"))
+        if "Adjusted EBITDA (New Definition)" not in text:
+            continue
+        qs = _quarter_keys(text)
+        eb = _row(text, "Adjusted EBITDA (New Definition)")
+        op = _row(text, "Adjusted Operating Expenses")
+        if not (qs and eb and op):
+            print("[warn] 보도자료 형식이 바뀌어 비GAAP 지표를 못 뽑았다", file=sys.stderr)
+            return {}
+        out = {q: {"adj_ebitda": eb[i], "adj_opex": op[i]} for i, q in enumerate(qs)}
+        # 운영 지표는 최신 분기치만 보도자료에 실린다
+        avg = re.search(r"USDC in Circulation, average of period \$?\s*([\d.]+)", text)
+        onp = re.search(r"USDC on Platform, daily weighted average percentage ([\d.]+)%", text)
+        if avg:
+            out[qs[0]]["usdc_avg"] = float(avg.group(1)) * 1e9
+        if onp:
+            out[qs[0]]["on_platform_pct"] = float(onp.group(1))
+        return out
+    return {}
+
+
+def merged_inputs(q, auto):
+    """보도자료 자동 추출값 + 수동 입력. 수동이 항상 우선한다."""
+    a, man = auto.get(q, {}), QUARTERLY_MANUAL.get(q, {})
+    merged = dict(a)
+    for k, v in man.items():
+        if v is None:
+            continue
+        if k in a and a[k] != v:  # 형식 변경으로 잘못 뽑혔을 수 있으니 알린다
+            print(f"[warn] {q}.{k}: 자동 {a[k]} != 수동 {v} (수동값 사용)", file=sys.stderr)
+        merged[k] = v
+    return merged
+
+
+# ---------------------------------------------------------------------------
 # 2) 실시간 시장 데이터
 # ---------------------------------------------------------------------------
 def fetch_usdc():
@@ -351,7 +452,7 @@ def usdc_quarterly_avg(usdc):
     return {q: sum(v) / len(v) for q, v in buckets.items()}
 
 
-def enrich_quarters(quarters, sofr_q, usdc):
+def enrich_quarters(quarters, sofr_q, usdc, auto=None):
     """분기 행에 수동 입력값을 합치고 파생 지표를 계산한다.
 
     핵심 지표 두 가지:
@@ -369,7 +470,7 @@ def enrich_quarters(quarters, sofr_q, usdc):
 
     for r in quarters:
         q = r["quarter"]
-        m = QUARTERLY_MANUAL.get(q, {})
+        m = merged_inputs(q, auto or {})
         r["fee_drag_bps_theory"] = fee_drag_bps
 
         # --- Reserve Return Rate 와 SOFR 격차 ---------------------------------
@@ -456,12 +557,15 @@ def main():
     treasury = safe(fetch_treasury, "treasury")
     crcl = safe(fetch_crcl, "crcl")
     sens = compute_sensitivity(usdc, sofr or [])
-    quarters = safe(lambda: enrich_quarters(quarters, sofr_q, usdc), "enrich") or quarters
+    auto = safe(fetch_earnings_release, "earnings release") or {}
+    quarters = (safe(lambda: enrich_quarters(quarters, sofr_q, usdc, auto), "enrich")
+                or quarters)
 
     latest = {
         "fetched_at": now,
         "config": CONFIG,
         "sofr_quarterly_avg": sofr_q,
+        "earnings_release_auto": auto,
         "quarters": quarters,
         "filings": filings,
         "usdc": usdc,

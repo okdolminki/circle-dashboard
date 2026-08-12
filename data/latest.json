@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-08-12T03:50:46+00:00",
+ "fetched_at": "2026-08-12T06:24:54+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -23,6 +23,30 @@
   "2023Q3": 5.237,
   "2023Q2": 4.9677,
   "2023Q1": 4.4989
+ },
+ "earnings_release_auto": {
+  "2026Q2": {
+   "adj_ebitda": 143478000,
+   "adj_opex": 146380000,
+   "usdc_avg": 76500000000.0,
+   "on_platform_pct": 19.5
+  },
+  "2026Q1": {
+   "adj_ebitda": 151401000,
+   "adj_opex": 135677000
+  },
+  "2025Q4": {
+   "adj_ebitda": 175910000,
+   "adj_opex": 132806000
+  },
+  "2025Q3": {
+   "adj_ebitda": 171476000,
+   "adj_opex": 122686000
+  },
+  "2025Q2": {
+   "adj_ebitda": 132997000,
+   "adj_opex": 119366000
+  }
  },
  "quarters": [
   {
@@ -347,7 +371,7 @@
   }
  ],
  "usdc": {
-  "circulating": 72219552472.56232,
+  "circulating": 72233490442.45784,
   "history": [
    [
     1752019200,
@@ -2508,15 +2532,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 72219552472.56232,
+  "usdc_circulating": 72233490442.45784,
   "sofr_latest": 3.63,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.486,
-  "gross_income_run_rate": 2517703594.387973,
-  "per_100bp_gross": 722195524.7256231,
-  "per_25bp_gross": 180548881.18140578,
-  "per_100bp_net_to_circle": 369764108.6595191,
-  "per_25bp_net_to_circle": 92441027.16487977,
+  "gross_income_run_rate": 2518189497.1068764,
+  "per_100bp_gross": 722334904.4245784,
+  "per_25bp_gross": 180583726.1061446,
+  "per_100bp_net_to_circle": 369835471.06538415,
+  "per_25bp_net_to_circle": 92458867.76634604,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }

@@ -16,7 +16,8 @@ Circle의 금리 민감도, RLDC 마진, 기타 수익 비중을 한 화면에�
 | RLDC 마진, 기타 수익 비중 | SEC EDGAR XBRL (10-Q/10-K) | 분기 공시 직후 자동 반영 |
 | Net Reserve Margin | SEC EDGAR XBRL | 분기 공시 직후 자동 반영 |
 | RRR − SOFR 격차 | XBRL + NY Fed 분기평균 SOFR | 분기 공시 직후 자동 반영 |
-| 비용 강도, ARC 제외 계열 | XBRL + 수동 입력 | 실적 발표 후 수동 (아래 참고) |
+| 비용 강도 (Adj OpEx, Adj EBITDA) | 실적 보도자료 8-K 자동 파싱 | 실적 발표 직후 자동 |
+| ARC 제외 계열 | 보도자료 + ARC 인식액 수동 | ARC 금액만 수동 (아래 참고) |
 | 최근 공시 목록 | SEC EDGAR submissions | 수집 시마다 |
 
 분기 지표는 회사가 10-Q/10-K를 제출하는 순간 XBRL에 실리므로, 다음 수집 사이클에
@@ -101,18 +102,36 @@ Q2'26 실측 격차가 12.8bp다 (분기별 12.8~19.1bp, 평균 약 15bp).
 이 표는 "만약 7/1일에 금리가 바뀌었다면"을 가정한 12개월 전망 모델이라, 다음
 분기 10-Q에서 갱신되면 값을 다시 확인해 교체할 것.
 
-### 분기 수동 입력 (`fetch_data.py`의 QUARTERLY_MANUAL)
+### 분기 지표: 대부분 자동, ARC 하나만 수동
 
-비GAAP 지표와 실적 보도자료에만 나오는 운영 지표는 XBRL에 태그가 없다.
-**실적 발표 후 분기당 한 번**, 보도자료를 보고 4개 숫자를 넣는다.
+비GAAP 지표는 XBRL에 태그가 없지만 **실적 보도자료(8-K 항목 2.02 첨부)에서 자동으로
+파싱**한다. 보도자료는 이미지 슬라이드 + 평문 텍스트 구조라 `<table>` 태그가 없고,
+라벨 뒤에 값이 나열된다. 매 분기 5개 분기치가 함께 실려 과거 분기도 같이 갱신된다.
 
-| 키 | 어디서 | 비고 |
+```
+Adjusted Operating Expenses $ 146,380 $ 135,677 $ 132,806 $ 122,686 $ 119,366
+```
+
+| 키 | 수집 | 비고 |
 |---|---|---|
-| `adj_opex` | Non-GAAP 조정표 | Adjusted Operating Expenses |
-| `adj_ebitda` | Non-GAAP 조정표 | Adjusted EBITDA (New Definition) |
-| `arc_recognized` | 가이던스 각주 | 해당 분기 인식 ARC 프리세일 수익. FY26 총 $180M 예정 |
-| `on_platform_pct` | Key Operating Indicators | USDC on Platform, daily weighted average % |
-| `usdc_avg` | Key Operating Indicators | 비우면 DefiLlama로 근사 (격차가 흔들릴 수 있음) |
+| `adj_opex` | **자동** | Non-GAAP 조정표에서 파싱 |
+| `adj_ebitda` | **자동** | Non-GAAP 조정표에서 파싱 |
+| `on_platform_pct` | **자동** | Key Operating Indicators에서 파싱 |
+| `usdc_avg` | **자동** | 실패 시 DefiLlama로 근사 |
+| `arc_recognized` | **수동** | 보도자료에 금액이 없다 (아래 참고) |
+
+**ARC 프리세일 인식액만 자동화가 불가능하다.** 보도자료 각주에는 "Includes recognized
+ARC Token presale revenue"라는 문구만 있고 금액이 없다. FY26 총 $180M(프리세일
+$242M의 약 75%)이라는 수치는 실적 콜에서 CFO가 구두로 밝힌 것이라 문서에 없다.
+분기 실적 콜을 확인해 `QUARTERLY_MANUAL`에 직접 넣어야 한다. FY26에 $180M을 다
+인식하고 나면 이후 분기는 0이라 손댈 일이 없어진다.
+
+**안전장치 (3중):**
+1. 파싱 실패 시 조용히 틀린 값을 넣지 않고 **비워둔 채 경고**만 남긴다
+2. `QUARTERLY_MANUAL`에 손으로 넣은 값이 **항상 자동값보다 우선**한다
+3. 자동값과 수동값이 **다르면 경고**한다 (보도자료 형식 변경 감지용)
+
+즉 서클이 보도자료 형식을 바꿔도 잘못된 숫자가 대시보드에 조용히 들어가지 않는다.
 
 **검산법**: `Adjusted EBITDA ≈ RLDC − Adjusted OpEx`가 5개 분기 모두 오차 $2.2M
 이내로 성립한다. 입력 후 이 항등식이 깨지면 숫자를 잘못 넣은 것이다.
