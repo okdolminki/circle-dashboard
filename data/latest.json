@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-08-13T07:56:39+00:00",
+ "fetched_at": "2026-08-13T13:51:03+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -8,7 +8,7 @@
   "circle_cik": "0001876042"
  },
  "sofr_quarterly_avg": {
-  "2026Q3": 3.6245,
+  "2026Q3": 3.6243,
   "2026Q2": 3.619,
   "2026Q1": 3.6577,
   "2025Q4": 3.9939,
@@ -371,7 +371,7 @@
   }
  ],
  "usdc": {
-  "circulating": 72148113184.8435,
+  "circulating": 72070248728.21407,
   "history": [
    [
     1752105600,
@@ -1981,10 +1981,6 @@
  },
  "sofr": [
   {
-   "date": "2026-07-29",
-   "rate": 3.65
-  },
-  {
    "date": "2026-07-30",
    "rate": 3.65
   },
@@ -2019,6 +2015,10 @@
   {
    "date": "2026-08-11",
    "rate": 3.64
+  },
+  {
+   "date": "2026-08-12",
+   "rate": 3.62
   }
  ],
  "treasury": {
@@ -2029,8 +2029,8 @@
   "1 Yr": "4.00"
  },
  "crcl": {
-  "price": 71.28,
-  "high52w": 164.64,
+  "price": 72.22,
+  "high52w": 159.47,
   "low52w": 49.9,
   "history": [
    [
@@ -2528,19 +2528,23 @@
    [
     1786541400,
     71.28
+   ],
+   [
+    1786627800,
+    72.22
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 72148113184.8435,
-  "sofr_latest": 3.64,
+  "usdc_circulating": 72070248728.21407,
+  "sofr_latest": 3.62,
   "fee_drag_bps": 14.4,
-  "implied_rrr_pct": 3.496,
-  "gross_income_run_rate": 2522427903.5458617,
-  "per_100bp_gross": 721481131.848435,
-  "per_25bp_gross": 180370282.96210876,
-  "per_100bp_net_to_circle": 369398339.50639874,
-  "per_25bp_net_to_circle": 92349584.87659968,
+  "implied_rrr_pct": 3.476,
+  "gross_income_run_rate": 2505291572.240432,
+  "per_100bp_gross": 720702487.2821406,
+  "per_25bp_gross": 180175621.82053515,
+  "per_100bp_net_to_circle": 368999673.488456,
+  "per_25bp_net_to_circle": 92249918.372114,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
