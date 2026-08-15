@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-08-14T19:16:41+00:00",
+ "fetched_at": "2026-08-15T01:51:55+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -298,6 +298,12 @@
  ],
  "filings": [
   {
+   "form": "4",
+   "date": "2026-08-14",
+   "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000254/xslF345X06/wk-form4_1786741369.xml"
+  },
+  {
    "form": "144",
    "date": "2026-08-13",
    "desc": "144",
@@ -362,16 +368,10 @@
    "date": "2026-08-04",
    "desc": "FORM 4",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000243/xslF345X06/wk-form4_1785878043.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-08-04",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000242/xslF345X06/wk-form4_1785877945.xml"
   }
  ],
  "usdc": {
-  "circulating": 72005699141.02608,
+  "circulating": 72031474358.82343,
   "history": [
    [
     1752192000,
@@ -2022,14 +2022,14 @@
   }
  ],
  "treasury": {
-  "Date": "08/13/2026",
+  "Date": "08/14/2026",
   "1 Mo": "3.79",
-  "3 Mo": "3.87",
-  "6 Mo": "3.94",
-  "1 Yr": "3.97"
+  "3 Mo": "3.86",
+  "6 Mo": "3.95",
+  "1 Yr": "3.98"
  },
  "crcl": {
-  "price": 71.49,
+  "price": 71.6,
   "high52w": 159.47,
   "low52w": 49.9,
   "history": [
@@ -2531,20 +2531,20 @@
    ],
    [
     1786714200,
-    71.49
+    71.6
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 72005699141.02608,
+  "usdc_circulating": 72031474358.82343,
   "sofr_latest": 3.62,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.476,
-  "gross_income_run_rate": 2503047712.4005203,
-  "per_100bp_gross": 720056991.4102608,
-  "per_25bp_gross": 180014247.8525652,
-  "per_100bp_net_to_circle": 368669179.6020535,
-  "per_25bp_net_to_circle": 92167294.90051338,
+  "gross_income_run_rate": 2503943705.3665485,
+  "per_100bp_gross": 720314743.5882343,
+  "per_25bp_gross": 180078685.89705858,
+  "per_100bp_net_to_circle": 368801148.71717596,
+  "per_25bp_net_to_circle": 92200287.17929399,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
