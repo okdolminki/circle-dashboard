@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-03T21:05:22+00:00",
+ "fetched_at": "2026-09-04T04:38:54+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -189,11 +189,11 @@
    "net_reserve_margin_pct": 37.12,
    "other_share_pct": 3.86,
    "fee_drag_bps_theory": 14.4,
-   "usdc_avg": 69641390402,
+   "usdc_avg": 69738862269,
    "usdc_avg_source": "DefiLlama 근사",
-   "rrr_pct": 4.085,
+   "rrr_pct": 4.079,
    "sofr_avg_pct": 4.327,
-   "rrr_sofr_spread_bps": 24.2,
+   "rrr_sofr_spread_bps": 24.8,
    "adj_opex": 122686000.0,
    "adj_ebitda": 171476000.0,
    "on_platform_pct": null,
@@ -301,6 +301,30 @@
    "form": "4",
    "date": "2026-09-03",
    "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000263/xslF345X06/wk-form4_1788469610.xml"
+  },
+  {
+   "form": "4",
+   "date": "2026-09-03",
+   "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000262/xslF345X06/wk-form4_1788469584.xml"
+  },
+  {
+   "form": "4",
+   "date": "2026-09-03",
+   "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000261/xslF345X06/wk-form4_1788469534.xml"
+  },
+  {
+   "form": "4",
+   "date": "2026-09-03",
+   "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000260/xslF345X06/wk-form4_1788469499.xml"
+  },
+  {
+   "form": "4",
+   "date": "2026-09-03",
+   "desc": "FORM 4",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000259/xslF345X06/wk-form4_1788469473.xml"
   },
   {
@@ -344,39 +368,11 @@
    "date": "2026-09-01",
    "desc": "144",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195917326006567/xsl144X01/primary_doc.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-08-24",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000257/xslF345X06/wk-form4_1787605270.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-08-21",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000256/xslF345X06/wk-form4_1787346095.xml"
-  },
-  {
-   "form": "144",
-   "date": "2026-08-21",
-   "desc": "144",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195917326006298/xsl144X01/primary_doc.xml"
-  },
-  {
-   "form": "144",
-   "date": "2026-08-20",
-   "desc": "144",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000542/xsl144X01/primary_doc.xml"
   }
  ],
  "usdc": {
-  "circulating": 74133159756.8933,
+  "circulating": 74447749027.53871,
   "history": [
-   [
-    1753920000,
-    63695606561
-   ],
    [
     1754006400,
     63858929785
@@ -1972,12 +1968,16 @@
    [
     1788393600,
     73878716894
+   ],
+   [
+    1788480000,
+    74493549683
    ]
   ]
  },
  "usyc": {
   "aum": 2689214373,
-  "updated": "2026-09-03T21:02:20.000Z"
+  "updated": "2026-09-04T04:36:20.000Z"
  },
  "sofr": [
   {
@@ -2548,15 +2548,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74133159756.8933,
+  "usdc_circulating": 74447749027.53871,
   "sofr_latest": 3.65,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.506,
-  "gross_income_run_rate": 2599242020.7642417,
-  "per_100bp_gross": 741331597.568933,
-  "per_25bp_gross": 185332899.39223325,
-  "per_100bp_net_to_circle": 379561777.9552937,
-  "per_25bp_net_to_circle": 94890444.48882343,
+  "gross_income_run_rate": 2610272086.853757,
+  "per_100bp_gross": 744477490.2753872,
+  "per_25bp_gross": 186119372.5688468,
+  "per_100bp_net_to_circle": 381172475.02099824,
+  "per_25bp_net_to_circle": 95293118.75524956,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
