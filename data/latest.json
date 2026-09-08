@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-08T04:43:14+00:00",
+ "fetched_at": "2026-09-08T11:24:04+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -298,6 +298,12 @@
  ],
  "filings": [
   {
+   "form": "8-K",
+   "date": "2026-09-08",
+   "desc": "8-K",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000267/crcl-20260904.htm"
+  },
+  {
    "form": "4",
    "date": "2026-09-03",
    "desc": "FORM 4",
@@ -362,16 +368,10 @@
    "date": "2026-09-01",
    "desc": "144",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195917326006589/xsl144X01/primary_doc.xml"
-  },
-  {
-   "form": "144",
-   "date": "2026-09-01",
-   "desc": "144",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195917326006567/xsl144X01/primary_doc.xml"
   }
  ],
  "usdc": {
-  "circulating": 74334998871.28152,
+  "circulating": 74283817766.98912,
   "history": [
    [
     1754352000,
@@ -1977,7 +1977,7 @@
  },
  "usyc": {
   "aum": 2624340328,
-  "updated": "2026-09-08T04:41:20.000Z"
+  "updated": "2026-09-08T11:21:20.000Z"
  },
  "sofr": [
   {
@@ -2548,15 +2548,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74334998871.28152,
+  "usdc_circulating": 74283817766.98912,
   "sofr_latest": 3.66,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.516,
-  "gross_income_run_rate": 2613752363.312227,
-  "per_100bp_gross": 743349988.7128153,
-  "per_25bp_gross": 185837497.17820382,
-  "per_100bp_net_to_circle": 380595194.22096145,
-  "per_25bp_net_to_circle": 95148798.55524036,
+  "gross_income_run_rate": 2611952743.559318,
+  "per_100bp_gross": 742838177.6698912,
+  "per_25bp_gross": 185709544.4174728,
+  "per_100bp_net_to_circle": 380333146.96698433,
+  "per_25bp_net_to_circle": 95083286.74174608,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
