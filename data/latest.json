@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-09T04:47:43+00:00",
+ "fetched_at": "2026-09-09T11:28:58+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -371,7 +371,7 @@
   }
  ],
  "usdc": {
-  "circulating": 74454871718.62102,
+  "circulating": 74336832215.20216,
   "history": [
    [
     1754438400,
@@ -1977,7 +1977,7 @@
  },
  "usyc": {
   "aum": 2624518387,
-  "updated": "2026-09-09T04:45:20.000Z"
+  "updated": "2026-09-09T11:26:10.000Z"
  },
  "sofr": [
   {
@@ -2544,15 +2544,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74454871718.62102,
+  "usdc_circulating": 74336832215.20216,
   "sofr_latest": 3.65,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.506,
-  "gross_income_run_rate": 2610521821.2239466,
-  "per_100bp_gross": 744548717.1862102,
-  "per_25bp_gross": 186137179.29655254,
-  "per_100bp_net_to_circle": 381208943.1993396,
-  "per_25bp_net_to_circle": 95302235.7998349,
+  "gross_income_run_rate": 2606383143.7629757,
+  "per_100bp_gross": 743368322.1520216,
+  "per_25bp_gross": 185842080.5380054,
+  "per_100bp_net_to_circle": 380604580.9418351,
+  "per_25bp_net_to_circle": 95151145.23545878,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
