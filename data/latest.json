@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-15T17:03:21+00:00",
+ "fetched_at": "2026-09-15T21:24:41+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -298,6 +298,42 @@
  ],
  "filings": [
   {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000608/xsl144X01/primary_doc.xml"
+  },
+  {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000607/xsl144X01/primary_doc.xml"
+  },
+  {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000606/xsl144X01/primary_doc.xml"
+  },
+  {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000605/xsl144X01/primary_doc.xml"
+  },
+  {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000604/xsl144X01/primary_doc.xml"
+  },
+  {
+   "form": "144/A",
+   "date": "2026-09-15",
+   "desc": "144/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000195824426000603/xsl144X01/primary_doc.xml"
+  },
+  {
    "form": "4",
    "date": "2026-09-10",
    "desc": "FORM 4",
@@ -332,46 +368,10 @@
    "date": "2026-09-03",
    "desc": "FORM 4",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000263/xslF345X06/wk-form4_1788469610.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000262/xslF345X06/wk-form4_1788469584.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000261/xslF345X06/wk-form4_1788469534.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000260/xslF345X06/wk-form4_1788469499.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000259/xslF345X06/wk-form4_1788469473.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000258/xslF345X06/wk-form4_1788469397.xml"
-  },
-  {
-   "form": "4",
-   "date": "2026-09-03",
-   "desc": "FORM 4",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000153994026000002/xslF345X06/wk-form4_1788469363.xml"
   }
  ],
  "usdc": {
-  "circulating": 74098085557.09215,
+  "circulating": 73785431654.50711,
   "history": [
    [
     1754956800,
@@ -1977,7 +1977,7 @@
  },
  "usyc": {
   "aum": 2605983780,
-  "updated": "2026-09-15T17:01:20.000Z"
+  "updated": "2026-09-15T21:22:20.000Z"
  },
  "sofr": [
   {
@@ -2022,14 +2022,14 @@
   }
  ],
  "treasury": {
-  "Date": "09/14/2026",
-  "1 Mo": "3.94",
+  "Date": "09/15/2026",
+  "1 Mo": "3.93",
   "3 Mo": "4.11",
-  "6 Mo": "4.18",
-  "1 Yr": "4.37"
+  "6 Mo": "4.17",
+  "1 Yr": "4.39"
  },
  "crcl": {
-  "price": 88.985,
+  "price": 86.3,
   "high52w": 159.47,
   "low52w": 49.9,
   "history": [
@@ -2539,20 +2539,20 @@
    ],
    [
     1789479000,
-    88.99
+    86.3
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74098085557.09215,
+  "usdc_circulating": 73785431654.50711,
   "sofr_latest": 3.62,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.476,
-  "gross_income_run_rate": 2575782830.518526,
-  "per_100bp_gross": 740980855.5709215,
-  "per_25bp_gross": 185245213.89273039,
-  "per_100bp_net_to_circle": 379382198.05231184,
-  "per_25bp_net_to_circle": 94845549.51307796,
+  "gross_income_run_rate": 2564914418.0876455,
+  "per_100bp_gross": 737854316.5450711,
+  "per_25bp_gross": 184463579.13626778,
+  "per_100bp_net_to_circle": 377781410.07107645,
+  "per_25bp_net_to_circle": 94445352.51776911,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
