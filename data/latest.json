@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-28T23:19:18+00:00",
+ "fetched_at": "2026-09-29T05:48:14+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -189,11 +189,11 @@
    "net_reserve_margin_pct": 37.12,
    "other_share_pct": 3.86,
    "fee_drag_bps_theory": 14.4,
-   "usdc_avg": 72244963527,
+   "usdc_avg": 72388060956,
    "usdc_avg_source": "DefiLlama 근사",
-   "rrr_pct": 3.938,
+   "rrr_pct": 3.93,
    "sofr_avg_pct": 4.327,
-   "rrr_sofr_spread_bps": 38.9,
+   "rrr_sofr_spread_bps": 39.7,
    "adj_opex": 122686000.0,
    "adj_ebitda": 171476000.0,
    "on_platform_pct": null,
@@ -371,12 +371,8 @@
   }
  ],
  "usdc": {
-  "circulating": 74831800825.05551,
+  "circulating": 74837847047.26796,
   "history": [
-   [
-    1756080000,
-    67093456087
-   ],
    [
     1756166400,
     68727991544
@@ -1972,13 +1968,14 @@
    [
     1790553600,
     75247177712
+   ],
+   [
+    1790640000,
+    74859243691
    ]
   ]
  },
- "usyc": {
-  "aum": 2405472293,
-  "updated": "2026-09-28T23:17:20.000Z"
- },
+ "usyc": null,
  "sofr": [
   {
    "date": "2026-09-14",
@@ -2540,15 +2537,15 @@
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74831800825.05551,
+  "usdc_circulating": 74837847047.26796,
   "sofr_latest": 3.9,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.756,
-  "gross_income_run_rate": 2810817136.23057,
-  "per_100bp_gross": 748318008.2505552,
-  "per_25bp_gross": 187079502.0626388,
-  "per_100bp_net_to_circle": 383138820.22428423,
-  "per_25bp_net_to_circle": 95784705.05607106,
+  "gross_income_run_rate": 2811044243.2200694,
+  "per_100bp_gross": 748378470.4726796,
+  "per_25bp_gross": 187094617.6181699,
+  "per_100bp_net_to_circle": 383169776.88201195,
+  "per_25bp_net_to_circle": 95792444.22050299,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
