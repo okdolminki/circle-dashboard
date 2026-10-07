@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-07T13:30:39+00:00",
+ "fetched_at": "2026-10-07T23:08:05+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -300,6 +300,12 @@
  "filings": [
   {
    "form": "4",
+   "date": "2026-10-07",
+   "desc": "FORM 4",
+   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000288/xslF345X06/wk-form4_1791407022.xml"
+  },
+  {
+   "form": "4",
    "date": "2026-10-05",
    "desc": "FORM 4",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000286/xslF345X06/wk-form4_1791235378.xml"
@@ -363,16 +369,10 @@
    "date": "2026-09-25",
    "desc": "FORM 4",
    "url": "https://www.sec.gov/Archives/edgar/data/1876042/000206051126000002/xslF345X06/wk-form4_1790367093.xml"
-  },
-  {
-   "form": "8-K",
-   "date": "2026-09-25",
-   "desc": "8-K",
-   "url": "https://www.sec.gov/Archives/edgar/data/1876042/000187604226000279/crcl-20260925.htm"
   }
  ],
  "usdc": {
-  "circulating": 74170168451.0339,
+  "circulating": 73740291469.41309,
   "history": [
    [
     1756857600,
@@ -1977,8 +1977,8 @@
   ]
  },
  "usyc": {
-  "aum": 2404046422,
-  "updated": "2026-10-07T13:28:20.000Z"
+  "aum": 2404071311,
+  "updated": "2026-10-07T23:04:00.000Z"
  },
  "sofr": [
   {
@@ -2023,21 +2023,17 @@
   }
  ],
  "treasury": {
-  "Date": "10/06/2026",
-  "1 Mo": "4.06",
-  "3 Mo": "4.21",
+  "Date": "10/07/2026",
+  "1 Mo": "4.07",
+  "3 Mo": "4.22",
   "6 Mo": "4.28",
-  "1 Yr": "4.46"
+  "1 Yr": "4.42"
  },
  "crcl": {
-  "price": 80.109,
+  "price": 80.84,
   "high52w": 159.47,
   "low52w": 49.9,
   "history": [
-   [
-    1775568600,
-    94.12
-   ],
    [
     1775655000,
     94.44
@@ -2544,20 +2540,20 @@
    ],
    [
     1791379800,
-    80.11
+    80.84
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 74170168451.0339,
+  "usdc_circulating": 73740291469.41309,
   "sofr_latest": 3.9,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.756,
-  "gross_income_run_rate": 2785965033.324045,
-  "per_100bp_gross": 741701684.510339,
-  "per_25bp_gross": 185425421.12758476,
-  "per_100bp_net_to_circle": 379751262.4692936,
-  "per_25bp_net_to_circle": 94937815.6173234,
+  "gross_income_run_rate": 2769818080.1158004,
+  "per_100bp_gross": 737402914.6941309,
+  "per_25bp_gross": 184350728.67353272,
+  "per_100bp_net_to_circle": 377550292.323395,
+  "per_25bp_net_to_circle": 94387573.08084875,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
