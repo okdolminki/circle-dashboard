@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-17T07:59:33+00:00",
+ "fetched_at": "2026-11-17T20:59:26+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -8,7 +8,7 @@
   "circle_cik": "0001876042"
  },
  "sofr_quarterly_avg": {
-  "2026Q4": 3.9033,
+  "2026Q4": 3.9042,
   "2026Q3": 3.6698,
   "2026Q2": 3.619,
   "2026Q1": 3.6577,
@@ -398,7 +398,7 @@
   }
  ],
  "usdc": {
-  "circulating": 69470594899.53558,
+  "circulating": 69275104345.32654,
   "history": [
    [
     1760400000,
@@ -2003,14 +2003,10 @@
   ]
  },
  "usyc": {
-  "aum": 2018305711,
-  "updated": "2026-11-17T07:58:50.000Z"
+  "aum": 2016911750,
+  "updated": "2026-11-17T20:58:47.000Z"
  },
  "sofr": [
-  {
-   "date": "2026-10-30",
-   "rate": 3.95
-  },
   {
    "date": "2026-11-02",
    "rate": 3.95
@@ -2046,17 +2042,21 @@
   {
    "date": "2026-11-13",
    "rate": 3.9
+  },
+  {
+   "date": "2026-11-16",
+   "rate": 3.93
   }
  ],
  "treasury": {
-  "Date": "11/16/2026",
-  "1 Mo": "4.10",
-  "3 Mo": "4.34",
-  "6 Mo": "4.42",
-  "1 Yr": "4.62"
+  "Date": "11/17/2026",
+  "1 Mo": "4.09",
+  "3 Mo": "4.33",
+  "6 Mo": "4.41",
+  "1 Yr": "4.60"
  },
  "crcl": {
-  "price": 57.65,
+  "price": 54.55,
   "high52w": 140.0,
   "low52w": 49.9,
   "history": [
@@ -2567,19 +2567,23 @@
    [
     1794839400,
     57.65
+   ],
+   [
+    1794925800,
+    54.55
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 69470594899.53558,
-  "sofr_latest": 3.9,
+  "usdc_circulating": 69275104345.32654,
+  "sofr_latest": 3.93,
   "fee_drag_bps": 14.4,
-  "implied_rrr_pct": 3.756,
-  "gross_income_run_rate": 2609440591.4973755,
-  "per_100bp_gross": 694705948.9953558,
-  "per_25bp_gross": 173676487.24883896,
-  "per_100bp_net_to_circle": 355689445.8856222,
-  "per_25bp_net_to_circle": 88922361.47140555,
+  "implied_rrr_pct": 3.786,
+  "gross_income_run_rate": 2622880145.7018843,
+  "per_100bp_gross": 692751043.4532654,
+  "per_25bp_gross": 173187760.86331636,
+  "per_100bp_net_to_circle": 354688534.2480719,
+  "per_25bp_net_to_circle": 88672133.56201798,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
