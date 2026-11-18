@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-17T20:59:26+00:00",
+ "fetched_at": "2026-11-18T07:36:18+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -220,11 +220,11 @@
    "net_reserve_margin_pct": 37.2,
    "other_share_pct": 4.78,
    "fee_drag_bps_theory": 14.4,
-   "usdc_avg": 76067094575,
+   "usdc_avg": 76076158751,
    "usdc_avg_source": "DefiLlama 근사",
-   "rrr_pct": 3.857,
+   "rrr_pct": 3.856,
    "sofr_avg_pct": 3.9939,
-   "rrr_sofr_spread_bps": 13.7,
+   "rrr_sofr_spread_bps": 13.8,
    "adj_opex": 132806000.0,
    "adj_ebitda": 175910000.0,
    "on_platform_pct": null,
@@ -398,12 +398,8 @@
   }
  ],
  "usdc": {
-  "circulating": 69275104345.32654,
+  "circulating": 69176145477.01595,
   "history": [
-   [
-    1760400000,
-    75360088883
-   ],
    [
     1760486400,
     75869662973
@@ -1999,12 +1995,16 @@
    [
     1794873600,
     69463607302
+   ],
+   [
+    1794960000,
+    69332677192
    ]
   ]
  },
  "usyc": {
   "aum": 2016911750,
-  "updated": "2026-11-17T20:58:47.000Z"
+  "updated": "2026-11-18T07:35:51.000Z"
  },
  "sofr": [
   {
@@ -2056,7 +2056,7 @@
   "1 Yr": "4.60"
  },
  "crcl": {
-  "price": 54.55,
+  "price": 54.63,
   "high52w": 140.0,
   "low52w": 49.9,
   "history": [
@@ -2570,20 +2570,20 @@
    ],
    [
     1794925800,
-    54.55
+    54.63
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 69275104345.32654,
+  "usdc_circulating": 69176145477.01595,
   "sofr_latest": 3.93,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.786,
-  "gross_income_run_rate": 2622880145.7018843,
-  "per_100bp_gross": 692751043.4532654,
-  "per_25bp_gross": 173187760.86331636,
-  "per_100bp_net_to_circle": 354688534.2480719,
-  "per_25bp_net_to_circle": 88672133.56201798,
+  "gross_income_run_rate": 2619133384.8216825,
+  "per_100bp_gross": 691761454.7701595,
+  "per_25bp_gross": 172940363.69253987,
+  "per_100bp_net_to_circle": 354181864.84232163,
+  "per_25bp_net_to_circle": 88545466.21058041,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
