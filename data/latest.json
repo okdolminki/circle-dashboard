@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-18T20:37:04+00:00",
+ "fetched_at": "2026-11-19T07:31:14+00:00",
  "config": {
   "net_passthrough": 0.512,
   "reserve_fund_share": 0.846,
@@ -220,7 +220,7 @@
    "net_reserve_margin_pct": 37.2,
    "other_share_pct": 4.78,
    "fee_drag_bps_theory": 14.4,
-   "usdc_avg": 76076158751,
+   "usdc_avg": 76078840514,
    "usdc_avg_source": "DefiLlama 근사",
    "rrr_pct": 3.856,
    "sofr_avg_pct": 3.9939,
@@ -398,12 +398,8 @@
   }
  ],
  "usdc": {
-  "circulating": 69178976190.039,
+  "circulating": 68521943525.38718,
   "history": [
-   [
-    1760486400,
-    75869662973
-   ],
    [
     1760572800,
     75689378563
@@ -1999,12 +1995,16 @@
    [
     1794960000,
     69332677192
+   ],
+   [
+    1795046400,
+    68587913544
    ]
   ]
  },
  "usyc": {
   "aum": 2017132549,
-  "updated": "2026-11-18T20:36:48.000Z"
+  "updated": "2026-11-19T07:30:54.000Z"
  },
  "sofr": [
   {
@@ -2049,21 +2049,17 @@
   }
  ],
  "treasury": {
-  "Date": "11/17/2026",
-  "1 Mo": "4.09",
-  "3 Mo": "4.33",
-  "6 Mo": "4.41",
-  "1 Yr": "4.60"
+  "Date": "11/18/2026",
+  "1 Mo": "4.10",
+  "3 Mo": "4.34",
+  "6 Mo": "4.43",
+  "1 Yr": "4.62"
  },
  "crcl": {
-  "price": 53.62,
+  "price": 53.31,
   "high52w": 140.0,
   "low52w": 49.9,
   "history": [
-   [
-    1779111000,
-    111.39
-   ],
    [
     1779197400,
     111.03
@@ -2574,20 +2570,20 @@
    ],
    [
     1795012200,
-    53.62
+    53.31
    ]
   ]
  },
  "sensitivity": {
-  "usdc_circulating": 69178976190.039,
+  "usdc_circulating": 68521943525.38718,
   "sofr_latest": 3.92,
   "fee_drag_bps": 14.4,
   "implied_rrr_pct": 3.776,
-  "gross_income_run_rate": 2612322663.0930147,
-  "per_100bp_gross": 691789761.90039,
-  "per_25bp_gross": 172947440.4750975,
-  "per_100bp_net_to_circle": 354196358.0929997,
-  "per_25bp_net_to_circle": 88549089.52324992,
+  "gross_income_run_rate": 2587511927.0169654,
+  "per_100bp_gross": 685219435.2538718,
+  "per_25bp_gross": 171304858.81346795,
+  "per_100bp_net_to_circle": 350832350.8499824,
+  "per_25bp_net_to_circle": 87708087.7124956,
   "net_passthrough": 0.512,
   "phase_in_days_approx": 5
  }
